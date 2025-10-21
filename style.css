@@ -10,3 +10,13 @@
     --blue-500: hsl(233, 67%, 56%);
     --blue-700: hsl(248, 70%, 36%);
 }
+
+@font-face {
+    font-family: "bricolage-grotesque";
+    src: url("./assets/fonts/Bricolage_Grotesque/BricolageGrotesque-VariableFont_opsz\,wdth\,wght.ttf");
+}
+
+@font-face {
+    font-family: "dm-sans";
+    src: url("./assets/fonts/DM_Sans/DMSans-VariableFont_opsz\,wght.ttf");
+}
