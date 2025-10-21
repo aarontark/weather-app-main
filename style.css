@@ -20,3 +20,12 @@
     font-family: "dm-sans";
     src: url("./assets/fonts/DM_Sans/DMSans-VariableFont_opsz\,wght.ttf");
 }
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
