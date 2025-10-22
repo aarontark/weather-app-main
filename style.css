@@ -32,8 +32,45 @@
 
 body {
     display: flex;
+    align-items: center;
     flex-direction: column;
     background-color: var(--neutral-900);
     color: var(--white);
 }
 
+body > * {
+    width: 92%;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 1rem;
+}
+
+.logo {
+    width: 9rem;
+}
+
+.units-dropdown {
+    display: flex;
+    padding: .5rem .55rem;
+    border-radius: .4rem;
+    gap: .4rem;
+    align-items: center;
+    font-family: "bricolage-grotesque";
+    background-color: var(--neutral-800);
+    color: var(--neutral-200);
+}
+
+.units-settings {
+    width: .9rem;
+}
+
+.settings-title {
+    font-size: .85rem;
+}
+
+.dropdown-img {
+    width: .7rem;
+}
