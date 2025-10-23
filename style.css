@@ -21,6 +21,11 @@
     src: url("./assets/fonts/DM_Sans/DMSans-VariableFont_opsz\,wght.ttf");
 }
 
+@font-face {
+    font-family: "dm-sans-italic";
+    src: url("./assets/fonts/DM_Sans/DMSans-Italic-VariableFont_opsz\,wght.ttf");
+}
+
 *, *::before, *::after {
     box-sizing: border-box;
 }
@@ -84,7 +89,7 @@ body > * {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1.75rem;
 }
 
 .search-card {
@@ -153,4 +158,50 @@ body > * {
 
 .search-button:hover {
     background-color: var(--blue-700);
+}
+
+/* weather summary styling */
+
+.weather-info {
+    width: 100%;
+}
+
+.weather-summary-main {
+    display: flex;
+    gap: .7rem;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-image: url('./assets/images/bg-today-small.svg');
+    background-size: 100%;
+    background-repeat: no-repeat;
+    border-radius: 1rem;
+    font-family: "dm-sans";
+    padding-block: 2.5rem;
+}
+
+.location {
+    font-size: 1.75rem;
+}
+
+.date {
+    font-size: 1.15rem;
+    color: var(--neutral-200);
+}
+
+.main-temp {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    font-family: "dm-sans-italic";
+    font-weight: 300;
+}
+
+.main-weather-img {
+    width: 7.5rem;
+}
+
+.main-temp-display {
+    font-size: 6rem;
 }
