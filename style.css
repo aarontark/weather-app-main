@@ -33,6 +33,7 @@
 body {
     display: flex;
     align-items: center;
+    gap: 3rem;
     flex-direction: column;
     background-color: var(--neutral-900);
     color: var(--white);
@@ -41,6 +42,8 @@ body {
 body > * {
     width: 92%;
 }
+
+/* navbar styling */
 
 .navbar {
     display: flex;
@@ -73,4 +76,81 @@ body > * {
 
 .dropdown-img {
     width: .7rem;
+}
+
+/* search card styling */
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.search-card {
+    display: flex;
+    gap: 2.75rem;
+    flex-direction: column;
+    align-items: center;
+}
+
+.site-intro {
+    text-align: center;
+    font-family: "bricolage-grotesque";
+    font-size: 3.45rem;
+    font-weight: 550;
+    line-height: 4rem;
+}
+
+.search-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .75rem;
+    width: 100%;
+}
+
+.search-input-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+}
+
+.search-bar {
+    background-color: var(--neutral-800);
+    border: none;
+    outline: none;
+    color: var(--white);
+    font-family: "dm-sans";
+    font-size: 1.25rem;
+    width: 100%;
+    padding: .9rem 3.75rem;
+    border-radius: .75rem;
+}
+
+.search-bar::placeholder {
+    color: var(--neutral-200);
+}
+
+.search-icon {
+    position: absolute;
+    left: 25px;
+}
+
+.search-button {
+    width: 100%;
+    background-color: var(--blue-500);
+    color: var(--white);
+    border: none;
+    font-size: 1.25rem;
+    padding-block: 1rem;
+    border-radius: .75rem;
+    font-family: "dm-sans";
+    cursor: pointer;
+}
+
+.search-button:hover {
+    background-color: var(--blue-700);
 }
