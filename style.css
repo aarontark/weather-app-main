@@ -166,6 +166,12 @@ body > * {
     width: 100%;
 }
 
+.weather-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
 .weather-summary-main {
     display: flex;
     gap: .7rem;
@@ -204,4 +210,33 @@ body > * {
 
 .main-temp-display {
     font-size: 6rem;
+}
+
+.secondary-weather-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 1rem;
+    font-family: "dm-sans";
+}
+
+.secondary-weather-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    background-color: var(--neutral-800);
+    color: var(--neutral-200);
+    padding: 1rem 1.25rem .8rem 1.25rem;
+    border-radius: .75rem;
+    border: 2px solid var(--neutral-700);
+}
+
+.secondary-header {
+    font-size: 1.12rem;
+    font-weight: bold;
+    color: var(--neutral-300);
+}
+
+.secondary-display {
+    font-size: 2rem;
 }
