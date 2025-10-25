@@ -277,7 +277,7 @@ body > * {
 .weekday {
     font-size: 1.12rem;
 }
-
+    
 .daily-img {
     width: 4rem;
 }
@@ -286,4 +286,66 @@ body > * {
     display: flex;
     justify-content: space-between;
     width: 100%;
+}
+
+.hourly-forecast-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background-color: var(--neutral-800);
+    padding: 1.25rem 1rem;
+    font-family: 'dm-sans';
+    border-radius: 1.25rem;
+}
+
+.day-selection-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hourly-forecast-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.day-selector {
+    display: flex;
+    gap: .75rem;
+    background-color: var(--neutral-600);
+    padding: .5rem 1rem;
+    border-radius: .5rem;
+}
+
+.day-option {
+    color: var(--neutral-200);
+    font-weight: bold;
+}
+
+.day-icon {
+    width: .85rem;
+}
+
+.hourly-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--neutral-700);
+    border: 1.5px solid var(--neutral-600);
+    padding: .5rem .75rem;
+    border-radius: .5rem;
+}
+
+.hour-container {
+    display: flex;
+    gap: .5rem;
+    align-items: center;
+}
+
+.hourly-icon {
+    width: 2.5rem;
+}
+
+.hourly-time {
+    font-size: 1.25rem;
 }
