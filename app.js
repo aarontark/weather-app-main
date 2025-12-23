@@ -15,7 +15,8 @@ async function searchResults(searchStr) {
     for (i = 0; i < 5; i++) {
         const locationContainer = document.createElement('div');
         const countryFlag = document.createElement("img")
-        countryFlag.src = `https://flagcdn.com/16x12/${geoCodingData[i].country_code.toLowerCase()}.png`;
+        countryFlag.classList.add('country-flag');
+        countryFlag.src = `https://flagcdn.com/256x192/${geoCodingData[i].country_code.toLowerCase()}.png`;
         const locationData = document.createElement('p');
         locationData.innerHTML = `${geoCodingData[i].name}, ${geoCodingData[i].country}`;
         locationContainer.appendChild(countryFlag);

@@ -163,6 +163,8 @@ body > * {
     padding: .5rem;
     position: absolute;
     top: 120%;
+    max-height: 11.7rem;
+    overflow-y: scroll;
 }
 
 .result-container {
@@ -179,6 +181,11 @@ body > * {
 .result-container:hover {
     background-color: var(--neutral-700);
     outline: 2px solid var(--neutral-600);
+}
+
+.country-flag {
+    object-fit: cover;
+    width: 1.75rem;
 }
 
 .search-button {
