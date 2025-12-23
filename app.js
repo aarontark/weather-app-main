@@ -20,7 +20,9 @@ async function searchResults(searchStr) {
         locationData.innerHTML = `${geoCodingData[i].name}, ${geoCodingData[i].country}`;
         locationContainer.appendChild(countryFlag);
         locationContainer.appendChild(locationData);
-        locationContainer.classList.add('result-container')
+        locationContainer.classList.add('result-container');
+        locationContainer.dataset.latitude = geoCodingData[i].latitude;
+        locationContainer.dataset.longitude = geoCodingData[i].longitude;
         resultsBar.appendChild(locationContainer);
     }
 }
