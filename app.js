@@ -48,6 +48,15 @@ searchBar.addEventListener('input', () => {
     searchResults(searchBar.value);
 })
 
+searchBar.addEventListener('focus', () => {
+    searchResults(searchBar.value);
+})
+
+searchBar.addEventListener('blur', () => {
+    const resultsBar = document.querySelector('.results-bar');
+    resultsBar.style.display = 'none';
+})
+
 // reference code
 
 // async function testCall() {
