@@ -7,11 +7,26 @@ async function searchResults(searchStr) {
     if (searchStr.length <= 1) {
         return;
     }
+    // loading bar DOM code
+    let loadingContainer = document.createElement("div");
+    const loadingImg = document.createElement("img");
+    const loadingText = document.createElement("p");
+    loadingImg.src = "assets/images/icon-loading.svg";
+    loadingImg.classList.add('loading-img');
+    loadingText.innerHTML = "Search in progress";
+    loadingContainer.classList.add('result-container');
+    loadingContainer.appendChild(loadingImg);
+    loadingContainer.appendChild(loadingText);
+    resultsBar.appendChild(loadingContainer);
+    resultsBar.style.display = 'flex';
+
+
     const geocodingDataRaw = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${searchStr}&count=10&language=en&format=json`);
     const geoCodingDataClean = await geocodingDataRaw.json();
     const geoCodingData = geoCodingDataClean.results;
-    console.log(geoCodingData);
-    resultsBar.style.display = 'flex';
+    loadingContainer = document.querySelector('.result-container');
+    resultsBar.removeChild(loadingContainer);
+    resultsBar.style.display = 'none';
     for (i = 0; i < 5; i++) {
         const locationContainer = document.createElement('div');
         const countryFlag = document.createElement("img")
@@ -26,6 +41,7 @@ async function searchResults(searchStr) {
         locationContainer.dataset.longitude = geoCodingData[i].longitude;
         resultsBar.appendChild(locationContainer);
     }
+    resultsBar.style.display = 'flex';
 }
 
 searchBar.addEventListener('input', () => {

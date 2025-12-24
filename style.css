@@ -167,6 +167,11 @@ body > * {
     overflow-y: scroll;
 }
 
+.loading-img {
+    width: 1.25rem;
+    animation: spin 1.25s infinite;
+}
+
 .result-container {
     display: flex;
     gap: 1rem;
@@ -392,4 +397,13 @@ body > * {
 
 .hourly-time {
     font-size: 1.25rem;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
