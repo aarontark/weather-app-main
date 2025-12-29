@@ -1,4 +1,5 @@
 const searchBar = document.querySelector('.search-bar');
+const searchBtn = document.querySelector('.search-button');
 
 async function searchResults(searchStr) {
     const resultsBar = document.querySelector('.results-bar');
@@ -7,6 +8,7 @@ async function searchResults(searchStr) {
     if (searchStr.length <= 1) {
         return;
     }
+
     // loading bar DOM code
     let loadingContainer = document.createElement("div");
     const loadingImg = document.createElement("img");
@@ -19,7 +21,6 @@ async function searchResults(searchStr) {
     loadingContainer.appendChild(loadingText);
     resultsBar.appendChild(loadingContainer);
     resultsBar.style.display = 'flex';
-
 
     const geocodingDataRaw = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${searchStr}&count=10&language=en&format=json`);
     const geoCodingDataClean = await geocodingDataRaw.json();
@@ -39,6 +40,11 @@ async function searchResults(searchStr) {
         locationContainer.classList.add('result-container');
         locationContainer.dataset.latitude = geoCodingData[i].latitude;
         locationContainer.dataset.longitude = geoCodingData[i].longitude;
+        locationContainer.addEventListener('mousedown', () => {
+            searchBtn.dataset.latitude = locationContainer.dataset.latitude;
+            searchBtn.dataset.longitude = locationContainer.dataset.longitude;
+            searchBar.value = locationData.innerHTML;
+        })
         resultsBar.appendChild(locationContainer);
     }
     resultsBar.style.display = 'flex';
