@@ -14,8 +14,8 @@ async function searchResults(searchStr) {
     const geocodingDataRaw = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${searchStr}&count=10&language=en&format=json`);
     const geoCodingDataClean = await geocodingDataRaw.json();
     const geoCodingData = geoCodingDataClean.results;
-    
-    loadingContainer = document.querySelector('.result-container');
+
+    const loadingContainer = document.querySelector('.result-container');
     resultsBar.removeChild(loadingContainer);
     resultsBar.style.display = 'none';
     searchResultRender(resultsBar, geoCodingData);
@@ -41,9 +41,7 @@ const searchResultRender = (resultsBar, geoCodingData) => {
       const locationContainer = document.createElement("div");
       const countryFlag = document.createElement("img");
       countryFlag.classList.add("country-flag");
-      countryFlag.src = `https://flagcdn.com/256x192/${geoCodingData[
-        i
-      ].country_code.toLowerCase()}.png`;
+      countryFlag.src = `https://flagcdn.com/256x192/${geoCodingData[i].country_code.toLowerCase()}.png`;
       const locationData = document.createElement("p");
       locationData.innerHTML = `${geoCodingData[i].name}, ${geoCodingData[i].country}`;
       locationContainer.appendChild(countryFlag);
@@ -73,17 +71,37 @@ searchBar.addEventListener('blur', () => {
     resultsBar.style.display = 'none';
 })
 
-// reference code
+searchBtn.addEventListener('click', () => {
+    const latitude = searchBtn.dataset.latitude;
+    const longitude = searchBtn.dataset.longitude;
+    fetchCurrentWeather(latitude, longitude);
+})
 
-// async function testCall() {
-//     const locationDataRaw = await fetch('https://geocoding-api.open-meteo.com/v1/search?name=Mexia&count=10&language=en&format=json');
-//     const locationData = await locationDataRaw.json();
-//     console.log(locationData.results[0]);
-//     const coordinates = [locationData.results[0].latitude, locationData.results[0].longitude];
-//     const mexiaWeatherDataRaw = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${coordinates[0]}&longitude=${coordinates[1]}&current=temperature_2m&temperature_unit=fahrenheit`);
-//     const mexiaWeatherData = await mexiaWeatherDataRaw.json();
-// };
+// async function fetchWeatherData(latitude, longitude) {
 
-// testCall();
+// }
 
-// console.log(circle.dataset.latitude, circle.dataset.longitude);
+async function fetchCurrentWeather(latitude, longitude) {
+    // fetch data
+    const currentWeatherRaw = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,wind_speed_10m&wind_speed_unit=mph&temperature_unit=fahrenheit&precipitation_unit=inch`);
+    const currentWeatherClean = await currentWeatherRaw.json();
+    const currentWeather = currentWeatherClean.current;
+    const currentWeatherUnits = currentWeatherClean.current_units;
+    // create DOM variables
+    const locationDisplay = document.querySelector('.location');
+    const date = document.querySelector('.date');
+    const weatherImg = document.querySelector('.main-weather-img');
+    const currentTemp = document.querySelector('.main-temp-display');
+    const feelsLikeDisplay = document.querySelector('.feels-like-display');
+    const humidityDisplay = document.querySelector('.humidity-display');
+    const windDisplay = document.querySelector('.wind-display');
+    const precipDisplay = document.querySelector('.precipitation-display');
+    console.log(currentWeatherClean);
+
+    locationDisplay.innerHTML = searchBar.value;
+    currentTemp.innerHTML = `${Math.round(currentWeather.temperature_2m)}°`;
+    feelsLikeDisplay.innerHTML = `${Math.round(currentWeather.apparent_temperature)}°`;
+    humidityDisplay.innerHTML = `${Math.round(currentWeather.relative_humidity_2m)}%`;
+    windDisplay.innerHTML = `${Math.round(currentWeather.wind_speed_10m)} ${currentWeatherUnits.wind_speed_10m}`;
+    precipDisplay.innerHTML = `${Math.round(currentWeather.precipitation)} ${currentWeatherUnits.precipitation}`;
+}
