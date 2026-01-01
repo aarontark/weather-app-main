@@ -1,5 +1,15 @@
 const searchBar = document.querySelector('.search-bar');
 const searchBtn = document.querySelector('.search-button');
+const dateDisplay = document.querySelector('.date');
+
+// set date
+const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const currentDate = new Date();
+const month = currentDate.getUTCMonth();
+const day = currentDate.getUTCDay();
+const year = currentDate.getUTCFullYear();
+dateDisplay.innerHTML = `${weekday[day]}, ${months[month]} ${currentDate.getUTCDate()}, ${year}`;
 
 async function searchResults(searchStr) {
     const resultsBar = document.querySelector('.results-bar');
@@ -106,7 +116,6 @@ async function fetchCurrentWeather(latitude, longitude) {
     const currentWeatherUnits = currentWeatherClean.current_units;
     // create DOM variables
     const locationDisplay = document.querySelector('.location');
-    const date = document.querySelector('.date');
     const weatherImg = document.querySelector('.main-weather-img');
     const currentTemp = document.querySelector('.main-temp-display');
     const feelsLikeDisplay = document.querySelector('.feels-like-display');
