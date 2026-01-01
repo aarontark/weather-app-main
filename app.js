@@ -77,13 +77,30 @@ searchBtn.addEventListener('click', () => {
     fetchCurrentWeather(latitude, longitude);
 })
 
-// async function fetchWeatherData(latitude, longitude) {
+function observeWeatherCode (weatherCode){
+    if (weatherCode == 0 || weatherCode == 1) {
+        return './assets/images/icon-sunny.webp';
+    } else if (weatherCode == 2) {
+        return './assets/images/icon-partly-cloudy.webp';
+    } else if (weatherCode == 3) {
+        return './assets/images/icon-cloudy.webp';
+    } else if (weatherCode >= 45 && weatherCode <= 48) {
+        return "./assets/images/icon-fog.webp";
+    } else if (weatherCode >= 51 && weatherCode <= 57) {
+        return "./assets/images/icon-drizzle.webp";
+    } else if ((weatherCode >= 61 && weatherCode <= 67) || (weatherCode >= 80 && weatherCode <= 82)) {
+        return "./.assets/images/icon-rain.webp";
+    } else if ((weatherCode >= 71 && weatherCode <= 77) || (weatherCode >= 85 && weatherCode <= 86)) {
+        return "./assets/images/icon-snow.webp";
+    } else if (weatherCode >= 95 && weatherCode <= 99) {
+        return "./assets/images/icon-storm.webp";
+    }
+}
 
-// }
 
 async function fetchCurrentWeather(latitude, longitude) {
     // fetch data
-    const currentWeatherRaw = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,wind_speed_10m&wind_speed_unit=mph&temperature_unit=fahrenheit&precipitation_unit=inch`);
+    const currentWeatherRaw = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=weather_code,temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,wind_speed_10m&wind_speed_unit=mph&temperature_unit=fahrenheit&precipitation_unit=inch`);
     const currentWeatherClean = await currentWeatherRaw.json();
     const currentWeather = currentWeatherClean.current;
     const currentWeatherUnits = currentWeatherClean.current_units;
@@ -99,6 +116,7 @@ async function fetchCurrentWeather(latitude, longitude) {
     console.log(currentWeatherClean);
 
     locationDisplay.innerHTML = searchBar.value;
+    weatherImg.src = observeWeatherCode(currentWeather.weather_code);
     currentTemp.innerHTML = `${Math.round(currentWeather.temperature_2m)}°`;
     feelsLikeDisplay.innerHTML = `${Math.round(currentWeather.apparent_temperature)}°`;
     humidityDisplay.innerHTML = `${Math.round(currentWeather.relative_humidity_2m)}%`;
