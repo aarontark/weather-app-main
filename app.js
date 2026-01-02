@@ -2,7 +2,7 @@ const searchBar = document.querySelector('.search-bar');
 const searchBtn = document.querySelector('.search-button');
 const dateDisplay = document.querySelector('.date');
 
-// set date
+// set dates
 const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const currentDate = new Date();
@@ -93,7 +93,7 @@ function observeWeatherCode (weatherCode){
     } else if (weatherCode == 2) {
         return './assets/images/icon-partly-cloudy.webp';
     } else if (weatherCode == 3) {
-        return './assets/images/icon-cloudy.webp';
+        return './assets/images/icon-overcast.webp';
     } else if (weatherCode >= 45 && weatherCode <= 48) {
         return "./assets/images/icon-fog.webp";
     } else if (weatherCode >= 51 && weatherCode <= 57) {
@@ -122,7 +122,6 @@ async function fetchCurrentWeather(latitude, longitude) {
     const humidityDisplay = document.querySelector('.humidity-display');
     const windDisplay = document.querySelector('.wind-display');
     const precipDisplay = document.querySelector('.precipitation-display');
-    console.log(currentWeatherClean);
 
     locationDisplay.innerHTML = searchBar.value;
     weatherImg.src = observeWeatherCode(currentWeather.weather_code);
