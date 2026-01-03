@@ -72,11 +72,10 @@ const searchResultRender = (resultsBar, geoCodingData) => {
       locationContainer.appendChild(countryFlag);
       locationContainer.appendChild(locationData);
       locationContainer.classList.add("result-container");
-      locationContainer.dataset.latitude = geoCodingData[i].latitude;
-      locationContainer.dataset.longitude = geoCodingData[i].longitude;
+      const latitude = geoCodingData[i].latitude;
+      const longitude = geoCodingData[i].longitude;
       locationContainer.addEventListener("mousedown", () => {
-        searchBtn.dataset.latitude = locationContainer.dataset.latitude;
-        searchBtn.dataset.longitude = locationContainer.dataset.longitude;
+        fetchCurrentWeather(latitude, longitude, false);
         searchBar.value = locationData.innerHTML;
       });
       resultsBar.appendChild(locationContainer);
@@ -97,9 +96,7 @@ searchBar.addEventListener('blur', () => {
 })
 
 searchBtn.addEventListener('click', () => {
-    const latitude = searchBtn.dataset.latitude;
-    const longitude = searchBtn.dataset.longitude;
-    fetchCurrentWeather(latitude, longitude, false);
+    searchBar.focus();
 })
 
 function observeWeatherCode (weatherCode){
