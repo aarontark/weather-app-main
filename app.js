@@ -11,6 +11,21 @@ const day = currentDate.getUTCDay();
 const year = currentDate.getUTCFullYear();
 dateDisplay.innerHTML = `${weekday[day]}, ${months[month]} ${currentDate.getUTCDate()}, ${year}`;
 
+navigator.geolocation.getCurrentPosition(
+    (position) => {
+    fetchCurrentWeather(position.coords.latitude, position.coords.longitude, true);
+    },
+    (error) => {
+    // if rejected, display berlin weather
+    fetchCurrentWeather(52.52, 13.41, false);
+    }
+);
+
+// async function fetchUserLocation(latitude, longitude) {
+//     const userLocationRaw = 
+// }
+
+
 async function searchResults(searchStr) {
     const resultsBar = document.querySelector('.results-bar');
     resultsBar.style.display = 'none';
@@ -84,7 +99,7 @@ searchBar.addEventListener('blur', () => {
 searchBtn.addEventListener('click', () => {
     const latitude = searchBtn.dataset.latitude;
     const longitude = searchBtn.dataset.longitude;
-    fetchCurrentWeather(latitude, longitude);
+    fetchCurrentWeather(latitude, longitude, false);
 })
 
 function observeWeatherCode (weatherCode){
@@ -108,7 +123,7 @@ function observeWeatherCode (weatherCode){
 }
 
 
-async function fetchCurrentWeather(latitude, longitude) {
+async function fetchCurrentWeather(latitude, longitude, isCurrentLocation) {
     // fetch data
     const currentWeatherRaw = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=weather_code,temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,wind_speed_10m&wind_speed_unit=mph&temperature_unit=fahrenheit&precipitation_unit=inch`);
     const currentWeatherClean = await currentWeatherRaw.json();
@@ -123,7 +138,12 @@ async function fetchCurrentWeather(latitude, longitude) {
     const windDisplay = document.querySelector('.wind-display');
     const precipDisplay = document.querySelector('.precipitation-display');
 
-    locationDisplay.innerHTML = searchBar.value;
+    if (isCurrentLocation) {
+        locationDisplay.innerHTML = 'Current Location';
+    } else {
+        locationDisplay.innerHTML = searchBar.value || 'Berlin, Germany';
+    }
+
     weatherImg.src = observeWeatherCode(currentWeather.weather_code);
     currentTemp.innerHTML = `${Math.round(currentWeather.temperature_2m)}°`;
     feelsLikeDisplay.innerHTML = `${Math.round(currentWeather.apparent_temperature)}°`;
