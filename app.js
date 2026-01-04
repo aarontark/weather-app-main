@@ -13,11 +13,13 @@ dateDisplay.innerHTML = `${weekday[day]}, ${months[month]} ${currentDate.getUTCD
 
 navigator.geolocation.getCurrentPosition(
     (position) => {
-    fetchCurrentWeather(position.coords.latitude, position.coords.longitude, true);
+        fetchCurrentWeather(position.coords.latitude, position.coords.longitude, true);
+        fetchDailyWeather(position.coords.latitude, position.coords.longitude, true);
     },
     (error) => {
     // if rejected, display berlin weather
-    fetchCurrentWeather(52.52, 13.41, false);
+        fetchCurrentWeather(52.52, 13.41, false);
+        fetchDailyWeather(52.52, 13.41, false);
     }
 );
 
@@ -76,6 +78,7 @@ const searchResultRender = (resultsBar, geoCodingData) => {
       const longitude = geoCodingData[i].longitude;
       locationContainer.addEventListener("mousedown", () => {
         fetchCurrentWeather(latitude, longitude, false);
+        fetchDailyWeather(latitude, longitude, false);
         searchBar.value = locationData.innerHTML;
       });
       resultsBar.appendChild(locationContainer);
@@ -111,7 +114,7 @@ function observeWeatherCode (weatherCode){
     } else if (weatherCode >= 51 && weatherCode <= 57) {
         return "./assets/images/icon-drizzle.webp";
     } else if ((weatherCode >= 61 && weatherCode <= 67) || (weatherCode >= 80 && weatherCode <= 82)) {
-        return "./.assets/images/icon-rain.webp";
+        return "./assets/images/icon-rain.webp";
     } else if ((weatherCode >= 71 && weatherCode <= 77) || (weatherCode >= 85 && weatherCode <= 86)) {
         return "./assets/images/icon-snow.webp";
     } else if (weatherCode >= 95 && weatherCode <= 99) {
@@ -147,4 +150,36 @@ async function fetchCurrentWeather(latitude, longitude, isCurrentLocation) {
     humidityDisplay.innerHTML = `${Math.round(currentWeather.relative_humidity_2m)}%`;
     windDisplay.innerHTML = `${Math.round(currentWeather.wind_speed_10m)} ${currentWeatherUnits.wind_speed_10m}`;
     precipDisplay.innerHTML = `${Math.round(currentWeather.precipitation)} ${currentWeatherUnits.precipitation}`;
+}
+
+async function fetchDailyWeather(latitude, longitude) {
+    // fetch and handle data
+    const dailyWeatherRaw = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=weather_code,temperature_2m_max,temperature_2m_min&temperature_unit=fahrenheit&timezone=auto`);
+    const dailyWeatherClean = await dailyWeatherRaw.json();
+    const dailyWeather = dailyWeatherClean.daily;
+    const timeStamps = dailyWeather.time;
+    const weatherCodes = dailyWeather.weather_code;
+    const maxTemps = dailyWeather.temperature_2m_max;
+    const minTemps = dailyWeather.temperature_2m_min;
+
+    console.log(timeStamps);
+
+    // create dom variables
+    const dayDisplays = document.querySelectorAll('.weekday');
+    const codeDisplays = document.querySelectorAll('.daily-img');
+    const maxDisplays = document.querySelectorAll('.high');
+    const minDisplays = document.querySelectorAll('.low');
+    console.log(codeDisplays);
+    console.log(weatherCodes);
+
+    // render data
+    for (i = 0; i < 7; i++) {
+        const [year, month, day] = timeStamps[i].split('-');
+        const dateObj = new Date(year, month - 1, day);
+        const currentDay = dateObj.toString().slice(0, 3);
+        dayDisplays[i].innerHTML = currentDay;
+        codeDisplays[i].src = observeWeatherCode(weatherCodes[i]);
+        maxDisplays[i].innerHTML = `${Math.round(maxTemps[i])}°`;
+        minDisplays[i].innerHTML = `${Math.round(minTemps[i])}°`;
+    }
 }
