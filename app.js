@@ -1,6 +1,8 @@
 const searchBar = document.querySelector('.search-bar');
 const searchBtn = document.querySelector('.search-button');
 const dateDisplay = document.querySelector('.date');
+let weeklyWeatherDate;
+let hourlyWeatherData = {};
 
 // set dates
 const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
@@ -14,12 +16,14 @@ dateDisplay.innerHTML = `${weekday[day]}, ${months[month]} ${currentDate.getUTCD
 navigator.geolocation.getCurrentPosition(
     (position) => {
         fetchCurrentWeather(position.coords.latitude, position.coords.longitude, true);
-        fetchDailyWeather(position.coords.latitude, position.coords.longitude, true);
+        fetchDailyWeather(position.coords.latitude, position.coords.longitude);
+        fetchHourlyWeather(position.coords.latitude, position.coords.longitude);
     },
     (error) => {
     // if rejected, display berlin weather
         fetchCurrentWeather(52.52, 13.41, false);
-        fetchDailyWeather(52.52, 13.41, false);
+        fetchDailyWeather(52.52, 13.41);
+        fetchHourlyWeather(52.52, 13.41);
     }
 );
 
@@ -78,7 +82,8 @@ const searchResultRender = (resultsBar, geoCodingData) => {
       const longitude = geoCodingData[i].longitude;
       locationContainer.addEventListener("mousedown", () => {
         fetchCurrentWeather(latitude, longitude, false);
-        fetchDailyWeather(latitude, longitude, false);
+        fetchDailyWeather(latitude, longitude);
+        fetchHourlyWeather(latitude, longitude);
         searchBar.value = locationData.innerHTML;
       });
       resultsBar.appendChild(locationContainer);
@@ -162,15 +167,11 @@ async function fetchDailyWeather(latitude, longitude) {
     const maxTemps = dailyWeather.temperature_2m_max;
     const minTemps = dailyWeather.temperature_2m_min;
 
-    console.log(timeStamps);
-
     // create dom variables
     const dayDisplays = document.querySelectorAll('.weekday');
     const codeDisplays = document.querySelectorAll('.daily-img');
     const maxDisplays = document.querySelectorAll('.high');
     const minDisplays = document.querySelectorAll('.low');
-    console.log(codeDisplays);
-    console.log(weatherCodes);
 
     // render data
     for (i = 0; i < 7; i++) {
@@ -182,4 +183,24 @@ async function fetchDailyWeather(latitude, longitude) {
         maxDisplays[i].innerHTML = `${Math.round(maxTemps[i])}°`;
         minDisplays[i].innerHTML = `${Math.round(minTemps[i])}°`;
     }
+}
+
+async function fetchHourlyWeather(latitude, longitude) {
+    const hourlyWeatherRaw = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,weather_code&timezone=auto&wind_speed_unit=mph&temperature_unit=fahrenheit&precipitation_unit=inch`);
+    const hourlyWeatherClean = await hourlyWeatherRaw.json();
+    const hourlyWeather = hourlyWeatherClean.hourly;
+	for (let i = 0; i < hourlyWeather.time.length; i++) {
+		const newDate = (new Date(hourlyWeather.time[i])).toString();
+		const dayKey = newDate.slice(0, 3);
+		const hourMilitary = newDate.slice(16, 18);
+		const hourStandard = hourMilitary % 12 || 12;
+		let timeIdentifier = hourMilitary >= 12 ? 'PM' : 'AM';
+		if (!hourlyWeatherData[dayKey]) {
+      		hourlyWeatherData[dayKey] = {};
+    	}
+		// console.log(newDate);
+		hourlyWeatherData[dayKey][`${hourStandard} ${timeIdentifier}`] = [hourlyWeather.temperature_2m[i], hourlyWeather.weather_code[i]]
+	}
+	console.log(hourlyWeather);
+	console.log(hourlyWeatherData);
 }
