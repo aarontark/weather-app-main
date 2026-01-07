@@ -198,9 +198,34 @@ async function fetchHourlyWeather(latitude, longitude) {
 		if (!hourlyWeatherData[dayKey]) {
       		hourlyWeatherData[dayKey] = {};
     	}
-		// console.log(newDate);
-		hourlyWeatherData[dayKey][`${hourStandard} ${timeIdentifier}`] = [hourlyWeather.temperature_2m[i], hourlyWeather.weather_code[i]]
+		hourlyWeatherData[dayKey][`${hourStandard} ${timeIdentifier}`] = [hourlyWeather.temperature_2m[i], hourlyWeather.weather_code[i]];
 	}
-	console.log(hourlyWeather);
-	console.log(hourlyWeatherData);
+    const currentDayDisplay = document.querySelector('.day-option');
+    let currentDay;
+    for (elem of weekday) {
+        if (Object.keys(hourlyWeatherData)[0] == elem.slice(0, 3)) {
+            currentDayDisplay.innerHTML = elem;
+            currentDay = elem.slice(0, 3);
+        }
+    }
+
+    renderHourlyData(hourlyWeatherData, currentDay);
+}
+
+
+
+function renderHourlyData(hourlyWeatherData, day) {
+    // set dom variables
+    const iconDisplay = document.querySelectorAll('.hourly-icon');
+    const timeDisplay = document.querySelectorAll('.hourly-time');
+    const tempDisplay = document.querySelectorAll('.hourly-temp');
+    const currentDay = hourlyWeatherData[day];
+    let iterator = 0;
+    for (key in currentDay) {
+        iconDisplay[iterator].src = observeWeatherCode(currentDay[key][1]);
+        timeDisplay[iterator].innerHTML = key;
+        tempDisplay[iterator].innerHTML = `${Math.round(currentDay[key][0])}°`;
+        iterator++;
+    }
+    console.log('heyyyyy');
 }
