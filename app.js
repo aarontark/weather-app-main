@@ -207,7 +207,15 @@ async function fetchHourlyWeather(latitude, longitude) {
             currentDay = elem.slice(0, 3);
         }
     }
-
+    let iterator = 0;
+    for (key in hourlyWeatherData) {
+        for (elem of weekday) {
+            if (elem.slice(0, 3) == key) {
+                daySelectors[iterator].innerHTML = elem;
+            }
+        }
+        iterator++;
+    }
     renderHourlyData(hourlyWeatherData, currentDay);
 }
 
