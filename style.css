@@ -351,6 +351,7 @@ body > * {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
 }
 
 .hourly-forecast-title {
@@ -373,6 +374,31 @@ body > * {
 
 .day-icon {
     width: .85rem;
+}
+
+.day-options {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    right: 0;
+    top: 3.25rem;
+    padding: .5rem;
+    border-radius: .75rem;
+    font-size: 1.12rem;
+    width: 15rem;
+    background-color: var(--neutral-800);
+    gap: .5rem;
+    outline: 2px solid var(--neutral-600);
+}
+
+.day {
+    cursor: pointer;
+    padding: .75rem;
+    border-radius: .5rem;
+}
+
+.day:hover {
+    background-color: var(--neutral-700);
 }
 
 .hourly-card {

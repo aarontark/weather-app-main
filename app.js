@@ -1,7 +1,6 @@
 const searchBar = document.querySelector('.search-bar');
 const searchBtn = document.querySelector('.search-button');
 const dateDisplay = document.querySelector('.date');
-let weeklyWeatherDate;
 let hourlyWeatherData = {};
 
 // set dates
@@ -227,5 +226,24 @@ function renderHourlyData(hourlyWeatherData, day) {
         tempDisplay[iterator].innerHTML = `${Math.round(currentDay[key][0])}°`;
         iterator++;
     }
-    console.log('heyyyyy');
+    for (elem of weekday) {
+        if (elem.slice(0, 3) == day) {
+            dayDropdown.innerHTML = elem;
+        }
+    }
 }
+
+const dayDropdown = document.querySelector('.day-selector');
+const dayOptions = document.querySelector('.day-options');
+const daySelectors = document.querySelectorAll('.day');
+
+for (daySelector of daySelectors) {
+    daySelector.addEventListener("click", (event) => {
+        renderHourlyData(hourlyWeatherData, event.target.innerHTML.slice(0, 3));
+        dayOptions.style.display = 'none';
+    });
+}
+
+dayDropdown.addEventListener('click', () => {
+    dayOptions.style.display = dayOptions.style.display == 'flex' ? 'none' : 'flex';
+})
