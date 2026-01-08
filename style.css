@@ -342,7 +342,7 @@ body > * {
     flex-direction: column;
     gap: 1rem;
     background-color: var(--neutral-800);
-    padding: 1.25rem 1rem;
+    padding: 0 1rem 1.25rem 1rem;
     font-family: 'dm-sans';
     border-radius: 1.25rem;
     max-height: 41rem;
@@ -353,7 +353,10 @@ body > * {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: relative;
+    position: sticky;
+    top: 0;
+    background-color: var(--neutral-800);
+    padding-block: .75rem;
 }
 
 .hourly-forecast-title {
