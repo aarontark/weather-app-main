@@ -376,6 +376,11 @@ body > * {
 
 .day-icon {
     width: .85rem;
+    transition: transform .2s ease-out;
+}
+
+.half-spin-anim {
+    transform: rotate(180deg);
 }
 
 .day-options {
@@ -433,5 +438,14 @@ body > * {
     }
     to {
         transform: rotate(360deg);
+    }
+}
+
+@keyframes half-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(180deg);
     }
 }

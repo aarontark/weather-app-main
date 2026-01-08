@@ -199,11 +199,10 @@ async function fetchHourlyWeather(latitude, longitude) {
     	}
 		hourlyWeatherData[dayKey][`${hourStandard} ${timeIdentifier}`] = [hourlyWeather.temperature_2m[i], hourlyWeather.weather_code[i]];
 	}
-    const currentDayDisplay = document.querySelector('.day-option');
     let currentDay;
     for (elem of weekday) {
         if (Object.keys(hourlyWeatherData)[0] == elem.slice(0, 3)) {
-            currentDayDisplay.innerHTML = elem;
+
             currentDay = elem.slice(0, 3);
         }
     }
@@ -236,7 +235,7 @@ function renderHourlyData(hourlyWeatherData, day) {
     }
     for (elem of weekday) {
         if (elem.slice(0, 3) == day) {
-            dayDropdown.innerHTML = elem;
+            currentDayDisplay.innerHTML = elem;
         }
     }
 }
@@ -244,6 +243,8 @@ function renderHourlyData(hourlyWeatherData, day) {
 const dayDropdown = document.querySelector('.day-selector');
 const dayOptions = document.querySelector('.day-options');
 const daySelectors = document.querySelectorAll('.day');
+const currentDayDisplay = document.querySelector(".day-option");
+const dropdownIcon = document.querySelector('.day-icon');
 
 for (daySelector of daySelectors) {
     daySelector.addEventListener("click", (event) => {
@@ -254,4 +255,9 @@ for (daySelector of daySelectors) {
 
 dayDropdown.addEventListener('click', () => {
     dayOptions.style.display = dayOptions.style.display == 'flex' ? 'none' : 'flex';
+    if (dayOptions.style.display == 'flex') {
+        dropdownIcon.classList.add('half-spin-anim');
+    } else {
+        dropdownIcon.classList.remove('half-spin-anim');
+    }
 })
