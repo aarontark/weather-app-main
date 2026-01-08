@@ -345,6 +345,8 @@ body > * {
     padding: 1.25rem 1rem;
     font-family: 'dm-sans';
     border-radius: 1.25rem;
+    max-height: 41rem;
+    overflow-y: scroll;
 }
 
 .day-selection-container {
