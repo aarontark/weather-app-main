@@ -370,6 +370,7 @@ body > * {
     background-color: var(--neutral-600);
     padding: .5rem 1rem;
     border-radius: .5rem;
+    cursor: pointer;
 }
 
 .day-option {
