@@ -250,6 +250,7 @@ for (daySelector of daySelectors) {
     daySelector.addEventListener("click", (event) => {
         renderHourlyData(hourlyWeatherData, event.target.innerHTML.slice(0, 3));
         dayOptions.style.display = 'none';
+        dropdownIcon.classList.remove('half-spin-anim');
     });
 }
 
