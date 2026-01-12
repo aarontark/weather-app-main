@@ -54,6 +54,7 @@ body > * {
     display: flex;
     justify-content: space-between;
     padding-top: 1rem;
+    position: relative;
 }
 
 .logo {
@@ -69,6 +70,64 @@ body > * {
     font-family: "bricolage-grotesque";
     background-color: var(--neutral-800);
     color: var(--neutral-200);
+}
+
+.units-dropdown-container {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    position: absolute;
+    top: 3.5rem;
+    right: 0;
+    z-index: 10;
+    background-color: var(--neutral-800);
+    padding: .5rem .5rem;
+    font-family: "bricolage-grotesque";
+    border-radius: .75rem;
+    outline: 2px solid var(--neutral-600);
+    width: 13rem;
+}
+
+.unit-switch {
+    padding: .5rem;
+    border-radius: .5rem;
+    cursor: pointer;
+}
+
+.units-container {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.unit-container {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    padding-block: .5rem;
+    cursor: pointer;
+}
+
+.unit-title {
+    color: var(--neutral-300);
+    font-size: .95rem;
+    padding-inline: .5rem;
+}
+
+.wind-units {
+    border-top: 1px solid var(--neutral-600);
+    border-bottom: 1px solid var(--neutral-600);
+}
+
+.unit-item {
+    display: flex;
+    justify-content: space-between;
+    padding: .5rem;
+    border-radius: .5rem;
+}
+
+.unit-switch:hover, .unit-item:hover {
+    background-color: var(--neutral-600);
 }
 
 .units-settings {
