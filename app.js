@@ -1,6 +1,9 @@
 const searchBar = document.querySelector('.search-bar');
 const searchBtn = document.querySelector('.search-button');
 const dateDisplay = document.querySelector('.date');
+const unitsDropdown = document.querySelector('.units-dropdown');
+const unitsDropdownIcon = document.querySelector('.dropdown-img');
+const unitsMenu = document.querySelector('.units-dropdown-container');
 let hourlyWeatherData = {};
 
 // set dates
@@ -26,10 +29,14 @@ navigator.geolocation.getCurrentPosition(
     }
 );
 
-// async function fetchUserLocation(latitude, longitude) {
-//     const userLocationRaw = 
-// }
-
+unitsDropdown.addEventListener('click', () => {
+    unitsMenu.style.display = unitsMenu.style.display == 'flex' ? 'none' : 'flex';
+    if (unitsMenu.style.display == "flex") {
+        unitsDropdownIcon.classList.add("half-spin-anim");
+    } else {
+        unitsDropdownIcon.classList.remove("half-spin-anim");
+    }
+})
 
 async function searchResults(searchStr) {
     const resultsBar = document.querySelector('.results-bar');

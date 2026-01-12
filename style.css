@@ -72,8 +72,13 @@ body > * {
     color: var(--neutral-200);
 }
 
+.dropdown-img {
+    width: .7rem;
+    transition: transform .2s ease-out;
+}
+
 .units-dropdown-container {
-    display: flex;
+    display: none;
     flex-direction: column;
     gap: .5rem;
     position: absolute;
@@ -136,10 +141,6 @@ body > * {
 
 .settings-title {
     font-size: .85rem;
-}
-
-.dropdown-img {
-    width: .7rem;
 }
 
 /* search card styling */
