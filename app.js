@@ -5,6 +5,8 @@ const unitsDropdown = document.querySelector('.units-dropdown');
 const unitsDropdownIcon = document.querySelector('.dropdown-img');
 const unitsMenu = document.querySelector('.units-dropdown-container');
 const unitSwitch = document.querySelector('.unit-switch');
+const celsiusSwitch = document.querySelector('.celsius');
+const fahrenSwitch = document.querySelector('.fahrenheit');
 const locationDisplay = document.querySelector(".location");
 let hourlyWeatherData = {};
 
@@ -71,6 +73,28 @@ unitSwitch.addEventListener('click', () => {
         unitSwitch.innerHTML = 'Switch to Imperial';
     }
 
+    fetchCurrentWeather(latitude, longitude);
+    fetchDailyWeather(latitude, longitude);
+    fetchHourlyWeather(latitude, longitude);
+})
+
+celsiusSwitch.addEventListener('click', () => {
+    tempUnit = false;
+    let checkmark = celsiusSwitch.querySelector('img');
+    checkmark.style.display = 'block';
+    checkmark = fahrenSwitch.querySelector('img');
+    checkmark.style.display = 'none';
+    fetchCurrentWeather(latitude, longitude);
+    fetchDailyWeather(latitude, longitude);
+    fetchHourlyWeather(latitude, longitude);
+})
+
+fahrenSwitch.addEventListener('click', () => {
+    tempUnit = true;
+    let checkmark = fahrenSwitch.querySelector('img');
+    checkmark.style.display = 'block';
+    checkmark = celsiusSwitch.querySelector('img');
+    checkmark.style.display = 'none';
     fetchCurrentWeather(latitude, longitude);
     fetchDailyWeather(latitude, longitude);
     fetchHourlyWeather(latitude, longitude);
