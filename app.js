@@ -4,7 +4,13 @@ const dateDisplay = document.querySelector('.date');
 const unitsDropdown = document.querySelector('.units-dropdown');
 const unitsDropdownIcon = document.querySelector('.dropdown-img');
 const unitsMenu = document.querySelector('.units-dropdown-container');
+const locationDisplay = document.querySelector(".location");
 let hourlyWeatherData = {};
+
+// set default units
+let windSpeed = false;
+let tempUnit = false;
+let precipUnit = false;
 
 // set dates
 const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
@@ -17,15 +23,17 @@ dateDisplay.innerHTML = `${weekday[day]}, ${months[month]} ${currentDate.getUTCD
 
 navigator.geolocation.getCurrentPosition(
     (position) => {
-        fetchCurrentWeather(position.coords.latitude, position.coords.longitude, true);
-        fetchDailyWeather(position.coords.latitude, position.coords.longitude);
-        fetchHourlyWeather(position.coords.latitude, position.coords.longitude);
+        fetchCurrentWeather(position.coords.latitude, position.coords.longitude, windSpeed, tempUnit, precipUnit);
+        fetchDailyWeather(position.coords.latitude, position.coords.longitude, tempUnit);
+        fetchHourlyWeather(position.coords.latitude, position.coords.longitude, tempUnit);
+        locationDisplay.innerHTML = "Current Location";
     },
     (error) => {
     // if rejected, display berlin weather
-        fetchCurrentWeather(52.52, 13.41, false);
-        fetchDailyWeather(52.52, 13.41);
-        fetchHourlyWeather(52.52, 13.41);
+        fetchCurrentWeather(52.52, 13.41, windSpeed, tempUnit, precipUnit);
+        fetchDailyWeather(52.52, 13.41, tempUnit);
+        fetchHourlyWeather(52.52, 13.41, tempUnit);
+        locationDisplay.innerHTML = "Berlin, Germany";
     }
 );
 
@@ -91,6 +99,7 @@ const searchResultRender = (resultsBar, geoCodingData) => {
         fetchDailyWeather(latitude, longitude);
         fetchHourlyWeather(latitude, longitude);
         searchBar.value = locationData.innerHTML;
+        locationDisplay.innerHTML = searchBar.value;
       });
       resultsBar.appendChild(locationContainer);
     }
@@ -134,26 +143,29 @@ function observeWeatherCode (weatherCode){
 }
 
 
-async function fetchCurrentWeather(latitude, longitude, isCurrentLocation) {
+async function fetchCurrentWeather(latitude, longitude, windSpeed, tempUnit, precipUnit) {
+    let endpoint = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m`;
+    if (windSpeed) {
+        endpoint += "&wind_speed_unit=mph";
+    }
+    if (tempUnit) {
+        endpoint += "&temperature_unit=fahrenheit";
+    }
+    if (precipUnit) {
+        endpoint += "&precipitation_unit=inch";
+    }
     // fetch data
-    const currentWeatherRaw = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=weather_code,temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,wind_speed_10m&wind_speed_unit=mph&temperature_unit=fahrenheit&precipitation_unit=inch`);
+    const currentWeatherRaw = await fetch(endpoint);
     const currentWeatherClean = await currentWeatherRaw.json();
     const currentWeather = currentWeatherClean.current;
     const currentWeatherUnits = currentWeatherClean.current_units;
     // create DOM variables
-    const locationDisplay = document.querySelector('.location');
     const weatherImg = document.querySelector('.main-weather-img');
     const currentTemp = document.querySelector('.main-temp-display');
     const feelsLikeDisplay = document.querySelector('.feels-like-display');
     const humidityDisplay = document.querySelector('.humidity-display');
     const windDisplay = document.querySelector('.wind-display');
     const precipDisplay = document.querySelector('.precipitation-display');
-
-    if (isCurrentLocation) {
-        locationDisplay.innerHTML = 'Current Location';
-    } else {
-        locationDisplay.innerHTML = searchBar.value || 'Berlin, Germany';
-    }
 
     weatherImg.src = observeWeatherCode(currentWeather.weather_code);
     currentTemp.innerHTML = `${Math.round(currentWeather.temperature_2m)}°`;
@@ -163,9 +175,13 @@ async function fetchCurrentWeather(latitude, longitude, isCurrentLocation) {
     precipDisplay.innerHTML = `${Math.round(currentWeather.precipitation)} ${currentWeatherUnits.precipitation}`;
 }
 
-async function fetchDailyWeather(latitude, longitude) {
+async function fetchDailyWeather(latitude, longitude, tempUnit) {
     // fetch and handle data
-    const dailyWeatherRaw = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=weather_code,temperature_2m_max,temperature_2m_min&temperature_unit=fahrenheit&timezone=auto`);
+    let endpoint = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto`;
+    if (tempUnit) {
+        endpoint += "&temperature_unit=fahrenheit";
+    }
+    const dailyWeatherRaw = await fetch(endpoint);
     const dailyWeatherClean = await dailyWeatherRaw.json();
     const dailyWeather = dailyWeatherClean.daily;
     const timeStamps = dailyWeather.time;
@@ -191,8 +207,12 @@ async function fetchDailyWeather(latitude, longitude) {
     }
 }
 
-async function fetchHourlyWeather(latitude, longitude) {
-    const hourlyWeatherRaw = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,weather_code&timezone=auto&wind_speed_unit=mph&temperature_unit=fahrenheit&precipitation_unit=inch`);
+async function fetchHourlyWeather(latitude, longitude, tempUnit) {
+    let endpoint = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,weather_code&timezone=auto`;
+    if (tempUnit) {
+        endpoint += "&temperature_unit=fahrenheit";
+    }
+    const hourlyWeatherRaw = await fetch(endpoint);
     const hourlyWeatherClean = await hourlyWeatherRaw.json();
     const hourlyWeather = hourlyWeatherClean.hourly;
 	for (let i = 0; i < hourlyWeather.time.length; i++) {
