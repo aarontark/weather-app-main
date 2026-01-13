@@ -4,7 +4,7 @@ const dateDisplay = document.querySelector('.date');
 const unitsDropdown = document.querySelector('.units-dropdown');
 const unitsDropdownIcon = document.querySelector('.dropdown-img');
 const unitsMenu = document.querySelector('.units-dropdown-container');
-const unitSwitch = document.querySelector('')
+const unitSwitch = document.querySelector('.unit-switch');
 const locationDisplay = document.querySelector(".location");
 let hourlyWeatherData = {};
 
@@ -56,6 +56,25 @@ unitsDropdown.addEventListener('click', () => {
     }
 })
 
+unitSwitch.addEventListener('click', () => {
+    if (unitSwitch.classList.contains('metric')) {
+        windSpeed = true;
+        tempUnit = true;
+        precipUnit = true;
+        unitSwitch.classList.remove('metric');
+        unitSwitch.innerHTML = 'Switch to Metric';
+    } else {
+        windSpeed = false;
+        tempUnit = false;
+        precipUnit = false;
+        unitSwitch.classList.add('metric');
+        unitSwitch.innerHTML = 'Switch to Imperial';
+    }
+
+    fetchCurrentWeather(latitude, longitude);
+    fetchDailyWeather(latitude, longitude);
+    fetchHourlyWeather(latitude, longitude);
+})
 
 
 async function searchResults(searchStr) {
@@ -155,7 +174,7 @@ function observeWeatherCode (weatherCode){
 }
 
 
-async function fetchCurrentWeather(latitude, longitude, windSpeed, tempUnit, precipUnit) {
+async function fetchCurrentWeather(latitude, longitude) {
     let endpoint = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m`;
     if (windSpeed) {
         endpoint += "&wind_speed_unit=mph";
@@ -187,7 +206,7 @@ async function fetchCurrentWeather(latitude, longitude, windSpeed, tempUnit, pre
     precipDisplay.innerHTML = `${Math.round(currentWeather.precipitation)} ${currentWeatherUnits.precipitation}`;
 }
 
-async function fetchDailyWeather(latitude, longitude, tempUnit) {
+async function fetchDailyWeather(latitude, longitude) {
     // fetch and handle data
     let endpoint = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto`;
     if (tempUnit) {
@@ -219,7 +238,7 @@ async function fetchDailyWeather(latitude, longitude, tempUnit) {
     }
 }
 
-async function fetchHourlyWeather(latitude, longitude, tempUnit) {
+async function fetchHourlyWeather(latitude, longitude) {
     let endpoint = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,weather_code&timezone=auto`;
     if (tempUnit) {
         endpoint += "&temperature_unit=fahrenheit";
