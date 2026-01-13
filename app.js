@@ -9,6 +9,8 @@ const celsiusSwitch = document.querySelector('.celsius');
 const fahrenSwitch = document.querySelector('.fahrenheit');
 const kmhSwitch = document.querySelector('.kmh');
 const mphSwitch = document.querySelector('.mph');
+const milliSwitch = document.querySelector('.millimeters');
+const inchSwitch = document.querySelector('.inches');
 const locationDisplay = document.querySelector(".location");
 let hourlyWeatherData = {};
 
@@ -116,6 +118,24 @@ mphSwitch.addEventListener('click', () => {
     let checkmark = mphSwitch.querySelector("img");
     checkmark.style.display = "block";
     checkmark = kmhSwitch.querySelector("img");
+    checkmark.style.display = "none";
+    fetchCurrentWeather(latitude, longitude);
+})
+
+milliSwitch.addEventListener('click', () => {
+    precipUnit = false;
+    let checkmark = milliSwitch.querySelector("img");
+    checkmark.style.display = "block";
+    checkmark = inchSwitch.querySelector("img");
+    checkmark.style.display = "none";
+    fetchCurrentWeather(latitude, longitude);
+})
+
+inchSwitch.addEventListener('click', () => {
+    precipUnit = true;
+    let checkmark = inchSwitch.querySelector("img");
+    checkmark.style.display = "block";
+    checkmark = milliSwitch.querySelector("img");
     checkmark.style.display = "none";
     fetchCurrentWeather(latitude, longitude);
 })
