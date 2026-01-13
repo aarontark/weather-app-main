@@ -4,13 +4,9 @@ const dateDisplay = document.querySelector('.date');
 const unitsDropdown = document.querySelector('.units-dropdown');
 const unitsDropdownIcon = document.querySelector('.dropdown-img');
 const unitsMenu = document.querySelector('.units-dropdown-container');
+const unitSwitch = document.querySelector('')
 const locationDisplay = document.querySelector(".location");
 let hourlyWeatherData = {};
-
-// set default units
-let windSpeed = false;
-let tempUnit = false;
-let precipUnit = false;
 
 // set dates
 const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
@@ -21,18 +17,32 @@ const day = currentDate.getUTCDay();
 const year = currentDate.getUTCFullYear();
 dateDisplay.innerHTML = `${weekday[day]}, ${months[month]} ${currentDate.getUTCDate()}, ${year}`;
 
+// set default units
+let windSpeed = false;
+let tempUnit = false;
+let precipUnit = false;
+
+let latitude;
+let longitude;
+
+// initial API call
+
 navigator.geolocation.getCurrentPosition(
     (position) => {
-        fetchCurrentWeather(position.coords.latitude, position.coords.longitude, windSpeed, tempUnit, precipUnit);
-        fetchDailyWeather(position.coords.latitude, position.coords.longitude, tempUnit);
-        fetchHourlyWeather(position.coords.latitude, position.coords.longitude, tempUnit);
+        latitude = position.coords.latitude;
+        longitude = position.coords.longitude;
+        fetchCurrentWeather(latitude, longitude);
+        fetchDailyWeather(latitude, longitude);
+        fetchHourlyWeather(latitude, longitude);
         locationDisplay.innerHTML = "Current Location";
     },
     (error) => {
     // if rejected, display berlin weather
-        fetchCurrentWeather(52.52, 13.41, windSpeed, tempUnit, precipUnit);
-        fetchDailyWeather(52.52, 13.41, tempUnit);
-        fetchHourlyWeather(52.52, 13.41, tempUnit);
+        latitude = 52.52;
+        longitude = 13.41;
+        fetchCurrentWeather(latitude, longitude);
+        fetchDailyWeather(latitude, longitude);
+        fetchHourlyWeather(latitude, longitude);
         locationDisplay.innerHTML = "Berlin, Germany";
     }
 );
@@ -45,6 +55,8 @@ unitsDropdown.addEventListener('click', () => {
         unitsDropdownIcon.classList.remove("half-spin-anim");
     }
 })
+
+
 
 async function searchResults(searchStr) {
     const resultsBar = document.querySelector('.results-bar');
@@ -92,10 +104,10 @@ const searchResultRender = (resultsBar, geoCodingData) => {
       locationContainer.appendChild(countryFlag);
       locationContainer.appendChild(locationData);
       locationContainer.classList.add("result-container");
-      const latitude = geoCodingData[i].latitude;
-      const longitude = geoCodingData[i].longitude;
+      latitude = geoCodingData[i].latitude;
+      longitude = geoCodingData[i].longitude;
       locationContainer.addEventListener("mousedown", () => {
-        fetchCurrentWeather(latitude, longitude, false);
+        fetchCurrentWeather(latitude, longitude);
         fetchDailyWeather(latitude, longitude);
         fetchHourlyWeather(latitude, longitude);
         searchBar.value = locationData.innerHTML;
@@ -229,7 +241,6 @@ async function fetchHourlyWeather(latitude, longitude, tempUnit) {
     let currentDay;
     for (elem of weekday) {
         if (Object.keys(hourlyWeatherData)[0] == elem.slice(0, 3)) {
-
             currentDay = elem.slice(0, 3);
         }
     }
