@@ -135,6 +135,10 @@ body > * {
     background-color: var(--neutral-600);
 }
 
+.checkmark {
+    display: none;
+}
+
 .units-settings {
     width: .9rem;
 }
