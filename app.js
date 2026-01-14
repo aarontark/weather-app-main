@@ -131,7 +131,9 @@ inchSwitch.addEventListener('click', () => {
 function checkmarkSwitch(activeSwitch, offSwitch) {
     let checkmark = activeSwitch.querySelector('img');
     checkmark.style.display = 'block';
+    activeSwitch.classList.add('active-switch');
     checkmark = offSwitch.querySelector('img');
+    offSwitch.classList.remove('active-switch');
     checkmark.style.display = 'none';
 }
 
