@@ -67,12 +67,18 @@ unitSwitch.addEventListener('click', () => {
         windSpeed = true;
         tempUnit = true;
         precipUnit = true;
+        checkmarkSwitch(fahrenSwitch, celsiusSwitch);
+        checkmarkSwitch(mphSwitch, kmhSwitch);
+        checkmarkSwitch(inchSwitch, milliSwitch);
         unitSwitch.classList.remove('metric');
         unitSwitch.innerHTML = 'Switch to Metric';
     } else {
         windSpeed = false;
         tempUnit = false;
         precipUnit = false;
+        checkmarkSwitch(celsiusSwitch, fahrenSwitch);
+        checkmarkSwitch(kmhSwitch, mphSwitch);
+        checkmarkSwitch(milliSwitch, inchSwitch);
         unitSwitch.classList.add('metric');
         unitSwitch.innerHTML = 'Switch to Imperial';
     }
@@ -84,10 +90,7 @@ unitSwitch.addEventListener('click', () => {
 
 celsiusSwitch.addEventListener('click', () => {
     tempUnit = false;
-    let checkmark = celsiusSwitch.querySelector('img');
-    checkmark.style.display = 'block';
-    checkmark = fahrenSwitch.querySelector('img');
-    checkmark.style.display = 'none';
+    checkmarkSwitch(celsiusSwitch, fahrenSwitch);
     fetchCurrentWeather(latitude, longitude);
     fetchDailyWeather(latitude, longitude);
     fetchHourlyWeather(latitude, longitude);
@@ -95,10 +98,7 @@ celsiusSwitch.addEventListener('click', () => {
 
 fahrenSwitch.addEventListener('click', () => {
     tempUnit = true;
-    let checkmark = fahrenSwitch.querySelector('img');
-    checkmark.style.display = 'block';
-    checkmark = celsiusSwitch.querySelector('img');
-    checkmark.style.display = 'none';
+    checkmarkSwitch(fahrenSwitch, celsiusSwitch);
     fetchCurrentWeather(latitude, longitude);
     fetchDailyWeather(latitude, longitude);
     fetchHourlyWeather(latitude, longitude);
@@ -106,39 +106,34 @@ fahrenSwitch.addEventListener('click', () => {
 
 kmhSwitch.addEventListener('click', () => {
     windSpeed = false;
-    let checkmark = kmhSwitch.querySelector('img');
-    checkmark.style.display = 'block';
-    checkmark = mphSwitch.querySelector('img');
-    checkmark.style.display = 'none';
+    checkmarkSwitch(kmhSwitch, mphSwitch);
     fetchCurrentWeather(latitude, longitude);
 })
 
 mphSwitch.addEventListener('click', () => {
     windSpeed = true;
-    let checkmark = mphSwitch.querySelector("img");
-    checkmark.style.display = "block";
-    checkmark = kmhSwitch.querySelector("img");
-    checkmark.style.display = "none";
+    checkmarkSwitch(mphSwitch, kmhSwitch);
     fetchCurrentWeather(latitude, longitude);
 })
 
 milliSwitch.addEventListener('click', () => {
     precipUnit = false;
-    let checkmark = milliSwitch.querySelector("img");
-    checkmark.style.display = "block";
-    checkmark = inchSwitch.querySelector("img");
-    checkmark.style.display = "none";
+    checkmarkSwitch(milliSwitch, inchSwitch);
     fetchCurrentWeather(latitude, longitude);
 })
 
 inchSwitch.addEventListener('click', () => {
     precipUnit = true;
-    let checkmark = inchSwitch.querySelector("img");
-    checkmark.style.display = "block";
-    checkmark = milliSwitch.querySelector("img");
-    checkmark.style.display = "none";
+    checkmarkSwitch(inchSwitch, milliSwitch);
     fetchCurrentWeather(latitude, longitude);
 })
+
+function checkmarkSwitch(activeSwitch, offSwitch) {
+    let checkmark = activeSwitch.querySelector('img');
+    checkmark.style.display = 'block';
+    checkmark = offSwitch.querySelector('img');
+    checkmark.style.display = 'none';
+}
 
 
 async function searchResults(searchStr) {
