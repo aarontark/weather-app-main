@@ -41,6 +41,7 @@ navigator.geolocation.getCurrentPosition(
         fetchDailyWeather(latitude, longitude);
         fetchHourlyWeather(latitude, longitude);
         locationDisplay.innerHTML = "Current Location";
+        console.log(latitude, longitude);
     },
     (error) => {
     // if rejected, display berlin weather
@@ -50,6 +51,7 @@ navigator.geolocation.getCurrentPosition(
         fetchDailyWeather(latitude, longitude);
         fetchHourlyWeather(latitude, longitude);
         locationDisplay.innerHTML = "Berlin, Germany";
+        console.log(latitude, longitude);
     }
 );
 
@@ -137,7 +139,6 @@ function checkmarkSwitch(activeSwitch, offSwitch) {
     checkmark.style.display = 'none';
 }
 
-
 async function searchResults(searchStr) {
     const resultsBar = document.querySelector('.results-bar');
     resultsBar.style.display = 'none';
@@ -151,7 +152,7 @@ async function searchResults(searchStr) {
     const geocodingDataRaw = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${searchStr}&count=10&language=en&format=json`);
     const geoCodingDataClean = await geocodingDataRaw.json();
     const geoCodingData = geoCodingDataClean.results;
-
+    console.log(geoCodingDataClean);
     const loadingContainer = document.querySelector('.result-container');
     resultsBar.removeChild(loadingContainer);
     resultsBar.style.display = 'none';
@@ -184,14 +185,17 @@ const searchResultRender = (resultsBar, geoCodingData) => {
       locationContainer.appendChild(countryFlag);
       locationContainer.appendChild(locationData);
       locationContainer.classList.add("result-container");
-      latitude = geoCodingData[i].latitude;
-      longitude = geoCodingData[i].longitude;
+      locationContainer.dataset.latitude = geoCodingData[i].latitude;
+      locationContainer.dataset.longitude = geoCodingData[i].longitude;
       locationContainer.addEventListener("mousedown", () => {
+        latitude = locationContainer.dataset.latitude;
+        longitude = locationContainer.dataset.longitude;
         fetchCurrentWeather(latitude, longitude);
         fetchDailyWeather(latitude, longitude);
         fetchHourlyWeather(latitude, longitude);
         searchBar.value = locationData.innerHTML;
         locationDisplay.innerHTML = searchBar.value;
+        console.log(latitude, longitude);
       });
       resultsBar.appendChild(locationContainer);
     }
