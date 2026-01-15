@@ -521,3 +521,49 @@ body > * {
         transform: rotate(180deg);
     }
 }
+
+@media (min-width: 1250px) {
+    .weather-info {
+        display: grid;
+        width: 90%;
+        max-width: 80rem;
+    }
+
+    .weather-summary {
+        grid-column: 1 / 4;
+    }
+
+    .weather-summary-main {
+        background-image: url('./assets/images/bg-today-large.svg');
+    }
+
+    .secondary-weather-info {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+
+    .secondary-weather-card {
+        width: 25%;
+    }
+
+    .daily-forecast {
+        display: block;
+        grid-column: 1 / 4;
+        grid-row: 2 / 3;
+    }
+
+    .daily-forecast-cards {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .daily-forecast-card {
+        width: 20%;
+    }
+
+    .hourly-forecast-container {
+        grid-column: 4 / 5;
+        grid-row: 1 / 3;
+    }
+}
