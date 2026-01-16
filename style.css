@@ -523,24 +523,55 @@ body > * {
 }
 
 @media (min-width: 1250px) {
+
+    .main-content {
+        gap: 3rem;
+    }
+
+    .search-card {
+        gap: 4rem;
+    }
+
+    .search-container {
+        flex-direction: row;
+        width: 90%;
+    }
+
+    .search-button {
+        flex-shrink: 4;
+    }
+
     .weather-info {
         display: grid;
         width: 90%;
+        gap: 2rem;
         max-width: 80rem;
     }
 
     .weather-summary {
-        grid-column: 1 / 4;
+        grid-column: 1 / 5;
+        grid-row: 1 / 4;
     }
 
     .weather-summary-main {
         background-image: url('./assets/images/bg-today-large.svg');
+        background-size: cover;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5.5rem 2rem;
+    }
+
+    .summary-metadata {
+        display: flex;
+        gap: .75rem;
+        flex-direction: column;
     }
 
     .secondary-weather-info {
         display: flex;
         justify-content: space-between;
-        gap: 1rem;
+        gap: 1.5rem;
     }
 
     .secondary-weather-card {
@@ -548,9 +579,8 @@ body > * {
     }
 
     .daily-forecast {
-        display: block;
-        grid-column: 1 / 4;
-        grid-row: 2 / 3;
+        grid-column: 1 / 5;
+        grid-row: 3 / 4;
     }
 
     .daily-forecast-cards {
@@ -563,7 +593,7 @@ body > * {
     }
 
     .hourly-forecast-container {
-        grid-column: 4 / 5;
-        grid-row: 1 / 3;
+        grid-column: 5 / 6;
+        grid-row: 1 / 4;
     }
 }
