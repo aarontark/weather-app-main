@@ -59,6 +59,7 @@ body > * {
 
 .logo {
     width: 9rem;
+    cursor: pointer;
 }
 
 .units-dropdown {
@@ -70,6 +71,7 @@ body > * {
     font-family: "bricolage-grotesque";
     background-color: var(--neutral-800);
     color: var(--neutral-200);
+    cursor: pointer;
 }
 
 .dropdown-img {
@@ -523,6 +525,30 @@ body > * {
 }
 
 @media (min-width: 1250px) {
+
+    .navbar {
+        padding-top: 2rem;
+    }
+
+    .logo {
+        width: 14rem;
+    }
+
+    .settings-title {
+        font-size: 1rem;
+    }
+
+    .units-settings {
+        width: .95rem;
+    }
+
+    .dropdown-img {
+        width: .8rem;
+    }
+
+    .units-dropdown-container {
+        top: 6rem;
+    }
 
     .main-content {
         gap: 3rem;
