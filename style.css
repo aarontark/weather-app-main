@@ -307,6 +307,7 @@ body > * {
     border-radius: 1rem;
     font-family: "dm-sans";
     padding-block: 2.5rem;
+    min-height: 17.3rem;
 }
 
 .location {
@@ -352,6 +353,7 @@ body > * {
     padding: 1rem 1.25rem .8rem 1.25rem;
     border-radius: .75rem;
     border: 2px solid var(--neutral-700);
+    min-height: 7.3rem;
 }
 
 .secondary-header {
@@ -392,6 +394,7 @@ body > * {
     border: 2px solid var(--neutral-700);
     padding: .75rem .5rem;
     border-radius: .75rem;
+    min-height: 9.95rem;
 }
 
 .weekday {
@@ -491,6 +494,7 @@ body > * {
     border: 1.5px solid var(--neutral-600);
     padding: .5rem .75rem;
     border-radius: .5rem;
+    min-height: 3.6rem;
 }
 
 .hour-container {
@@ -639,6 +643,7 @@ body > * {
         justify-content: space-between;
         align-items: center;
         padding: 5.5rem 2rem;
+        min-height: 18.8rem;
     }
 
     .summary-metadata {
@@ -670,6 +675,7 @@ body > * {
     .daily-forecast-card {
         width: 20%;
         gap: 1rem;
+        min-height: 10.45rem;
     }
 
     .hourly-forecast-container {
