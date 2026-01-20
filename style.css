@@ -542,6 +542,7 @@ body > * {
     border-radius: .25rem;
     padding: .25rem .75rem .25rem 2rem;
     font-size: 1.05rem;
+    cursor: pointer;
 }
 
 .attribution {
@@ -685,5 +686,32 @@ body > * {
 
     .day-options {
         top: 4.25rem;
+    }
+
+    .error-screen {
+        gap: 2rem;
+    }
+
+    .error-img {
+        width: 3.5rem;
+    }
+
+    .error-title {
+        font-size: 4rem;
+    }
+
+    .error-para {
+        font-size: 1.75rem;
+    }
+
+    .retry-img {
+        width: 1.25rem;
+        left: 1rem;
+    }
+
+    .retry-btn {
+        font-size: 1.25rem;
+        padding: .5rem 1rem .5rem 2.75rem;
+        border-radius: .5rem;
     }
 }
