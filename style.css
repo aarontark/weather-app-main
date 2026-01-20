@@ -157,7 +157,7 @@ body > * {
 /* search card styling */
 
 .main-content {
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
     gap: 1.75rem;
@@ -507,10 +507,48 @@ body > * {
     font-size: 1.25rem;
 }
 
+.error-screen {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-direction: column;
+    font-family: "dm-sans";
+}
+
+.error-img {
+    width: 2.5rem;
+}
+
+.error-para {
+    text-align: center;
+}
+
+.retry-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.retry-img {
+    position: absolute;
+    left: .5rem;
+}
+
+.retry-btn {
+    background-color: var(--neutral-700);
+    color: #fff;
+    border: none;
+    font-family: 'dm-sans';
+    border-radius: .25rem;
+    padding: .25rem .75rem .25rem 2rem;
+    font-size: 1.05rem;
+}
+
 .attribution {
     font-family: "bricolage-grotesque";
     font-size: 1rem;
     text-align: center;
+    display: none;
 }
 
 @keyframes spin {
