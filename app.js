@@ -13,6 +13,7 @@ const milliSwitch = document.querySelector('.millimeters');
 const inchSwitch = document.querySelector('.inches');
 const locationDisplay = document.querySelector(".location");
 let hourlyWeatherData = {};
+let searchTimer;
 
 // set dates
 const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
@@ -224,8 +225,14 @@ const searchResultRender = (resultsBar, geoCodingData) => {
     }
 }
 
-searchBar.addEventListener('input', () => {
-    searchResults(searchBar.value);
+searchBar.addEventListener('keyup', () => {
+    searchTimer = setTimeout(() => {
+        searchResults(searchBar.value);
+    }, 250)
+})
+
+searchBar.addEventListener('keydown', () => {
+    clearTimeout(searchTimer);
 })
 
 searchBar.addEventListener('focus', () => {
