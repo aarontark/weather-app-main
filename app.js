@@ -31,6 +31,33 @@ let precipUnit = false;
 let latitude;
 let longitude;
 
+// error function
+
+function errorDisplay() {
+    const mainContent = document.querySelector('.main-content');
+    const attribution = document.querySelector('.attribution');
+    const errorScreen = document.querySelector('.error-screen');
+    const retryBtn = document.querySelector('.retry-btn');
+
+    mainContent.style.display = 'none';
+    attribution.style.display = 'none';
+    errorScreen.style.display = 'flex';
+
+    retryBtn.addEventListener('click', () => {
+        fetchCurrentWeather(latitude, longitude);
+        fetchDailyWeather(latitude, longitude);
+        fetchHourlyWeather(latitude, longitude);
+
+        mainContent.style.display = 'flex';
+        attribution.style.display = 'block';
+        errorScreen.style.display = 'none';
+    })
+}
+
+// function errorScreen() {
+
+// }
+
 // initial API call
 
 navigator.geolocation.getCurrentPosition(
@@ -41,7 +68,6 @@ navigator.geolocation.getCurrentPosition(
         fetchDailyWeather(latitude, longitude);
         fetchHourlyWeather(latitude, longitude);
         locationDisplay.innerHTML = "Current Location";
-        console.log(latitude, longitude);
     },
     (error) => {
     // if rejected, display berlin weather
@@ -51,7 +77,6 @@ navigator.geolocation.getCurrentPosition(
         fetchDailyWeather(latitude, longitude);
         fetchHourlyWeather(latitude, longitude);
         locationDisplay.innerHTML = "Berlin, Germany";
-        console.log(latitude, longitude);
     }
 );
 
@@ -152,7 +177,6 @@ async function searchResults(searchStr) {
     const geocodingDataRaw = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${searchStr}&count=10&language=en&format=json`);
     const geoCodingDataClean = await geocodingDataRaw.json();
     const geoCodingData = geoCodingDataClean.results;
-    console.log(geoCodingDataClean);
     const loadingContainer = document.querySelector('.result-container');
     resultsBar.removeChild(loadingContainer);
     resultsBar.style.display = 'none';
@@ -195,7 +219,6 @@ const searchResultRender = (resultsBar, geoCodingData) => {
         fetchHourlyWeather(latitude, longitude);
         searchBar.value = locationData.innerHTML;
         locationDisplay.innerHTML = searchBar.value;
-        console.log(latitude, longitude);
       });
       resultsBar.appendChild(locationContainer);
     }
@@ -251,7 +274,12 @@ async function fetchCurrentWeather(latitude, longitude) {
         endpoint += "&precipitation_unit=inch";
     }
     // fetch data
-    const currentWeatherRaw = await fetch(endpoint);
+    let currentWeatherRaw;
+    try {
+        currentWeatherRaw = await fetch(endpoint);
+    } catch {
+        errorDisplay();
+    }
     const currentWeatherClean = await currentWeatherRaw.json();
     const currentWeather = currentWeatherClean.current;
     const currentWeatherUnits = currentWeatherClean.current_units;
@@ -277,7 +305,12 @@ async function fetchDailyWeather(latitude, longitude) {
     if (tempUnit) {
         endpoint += "&temperature_unit=fahrenheit";
     }
-    const dailyWeatherRaw = await fetch(endpoint);
+    let dailyWeatherRaw;
+    try {
+        dailyWeatherRaw = await fetch(endpoint);
+    } catch {
+        errorDisplay();
+    }
     const dailyWeatherClean = await dailyWeatherRaw.json();
     const dailyWeather = dailyWeatherClean.daily;
     const timeStamps = dailyWeather.time;
@@ -308,7 +341,12 @@ async function fetchHourlyWeather(latitude, longitude) {
     if (tempUnit) {
         endpoint += "&temperature_unit=fahrenheit";
     }
-    const hourlyWeatherRaw = await fetch(endpoint);
+    let hourlyWeatherRaw;
+    try {
+        hourlyWeatherRaw = await fetch(endpoint);
+    } catch {
+        errorDisplay();
+    }
     const hourlyWeatherClean = await hourlyWeatherRaw.json();
     const hourlyWeather = hourlyWeatherClean.hourly;
 	for (let i = 0; i < hourlyWeather.time.length; i++) {
