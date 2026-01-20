@@ -310,6 +310,12 @@ body > * {
     min-height: 17.3rem;
 }
 
+.summary-metadata {
+    display: none;
+    gap: .5rem;
+    flex-direction: column;
+}
+
 .location {
     font-size: 1.75rem;
 }
@@ -320,7 +326,7 @@ body > * {
 }
 
 .main-temp {
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     gap: 1.5rem;
@@ -334,6 +340,25 @@ body > * {
 
 .main-temp-display {
     font-size: 6rem;
+}
+
+.weather-summary-main-loading {
+    background-color: var(--neutral-800);
+    background-image: none;
+}
+
+.summary-loading {
+    text-align: center;
+    display: none;
+}
+
+.summary-loading-title {
+    font-size: 3rem;
+    letter-spacing: .25rem;
+}
+
+.summary-loading-para {
+    font-size: 1.25rem;
 }
 
 .secondary-weather-info {
@@ -646,10 +671,24 @@ body > * {
         min-height: 18.8rem;
     }
 
+    .weather-summary-main-loading {
+        background-color: var(--neutral-800);
+        background-image: none;
+    }
+
     .summary-metadata {
-        display: flex;
+        display: none;
         gap: .75rem;
         flex-direction: column;
+    }
+
+    .summary-loading {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
 
     .secondary-weather-info {

@@ -263,6 +263,23 @@ function observeWeatherCode (weatherCode){
 
 
 async function fetchCurrentWeather(latitude, longitude) {
+    const currentCard = document.querySelector('.weather-summary-main');
+    const summaryData = document.querySelector('.summary-metadata');
+    const mainTemp = document.querySelector('.main-temp');
+    const loadingCard = document.querySelector('.summary-loading');
+    const feelsLikeDisplay = document.querySelector(".feels-like-display");
+    const humidityDisplay = document.querySelector(".humidity-display");
+    const windDisplay = document.querySelector(".wind-display");
+    const precipDisplay = document.querySelector(".precipitation-display");
+    loadingCard.style.display = 'block';
+    summaryData.style.display = 'none';
+    mainTemp.style.display = 'none';
+    feelsLikeDisplay.innerHTML = '-';
+    humidityDisplay.innerHTML = '-';
+    windDisplay.innerHTML = '-';
+    precipDisplay.innerHTML = '-';
+    currentCard.classList.add('weather-summary-main-loading');
+
     let endpoint = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m`;
     if (windSpeed) {
         endpoint += "&wind_speed_unit=mph";
@@ -280,16 +297,13 @@ async function fetchCurrentWeather(latitude, longitude) {
     } catch {
         errorDisplay();
     }
+
     const currentWeatherClean = await currentWeatherRaw.json();
     const currentWeather = currentWeatherClean.current;
     const currentWeatherUnits = currentWeatherClean.current_units;
     // create DOM variables
     const weatherImg = document.querySelector('.main-weather-img');
     const currentTemp = document.querySelector('.main-temp-display');
-    const feelsLikeDisplay = document.querySelector('.feels-like-display');
-    const humidityDisplay = document.querySelector('.humidity-display');
-    const windDisplay = document.querySelector('.wind-display');
-    const precipDisplay = document.querySelector('.precipitation-display');
 
     weatherImg.src = observeWeatherCode(currentWeather.weather_code);
     currentTemp.innerHTML = `${Math.round(currentWeather.temperature_2m)}°`;
@@ -297,6 +311,11 @@ async function fetchCurrentWeather(latitude, longitude) {
     humidityDisplay.innerHTML = `${Math.round(currentWeather.relative_humidity_2m)}%`;
     windDisplay.innerHTML = `${Math.round(currentWeather.wind_speed_10m)} ${currentWeatherUnits.wind_speed_10m}`;
     precipDisplay.innerHTML = `${Math.round(currentWeather.precipitation)} ${currentWeatherUnits.precipitation}`;
+    summaryData.style.display = 'flex';
+    mainTemp.style.display = 'flex';
+    currentCard.classList.remove('weather-summary-main-loading');
+    loadingCard.style.display = 'none';
+
 }
 
 async function fetchDailyWeather(latitude, longitude) {
